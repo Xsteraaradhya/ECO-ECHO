@@ -3,187 +3,210 @@ from datetime import date
 
 # ------------------ PAGE CONFIG ------------------
 st.set_page_config(
-    page_title="Eco-Echo 🌱",
+    page_title="Eco-Echo",
     page_icon="🌿",
     layout="wide"
 )
 
-# ------------------ CUSTOM CSS (Hello Kitty Green + Black Chancery) ------------------
+# ------------------ GLOBAL STYLES ------------------
 st.markdown("""
-    <style>
-        /* Page background */
-        body {
-            background-color: #c8f2c8;  /* Hello Kitty green pastel */
-            font-family: 'Black Chancery', cursive;
-            color: #1b3a1b;  /* Dark green text */
-        }
+<style>
 
-        /* Main container */
-        .main {
-            background-color: #c8f2c8;
-        }
+/* Import modern eco font */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap');
 
-        /* Headers */
-        h1, h2, h3 {
-            color: #1b3a1b;
-            font-family: 'Black Chancery', cursive;
-        }
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+    color: #eaf5ee;
+}
 
-        /* Sidebar */
-        .css-1d391kg {
-            background-color: #b8e6b8;  /* pastel green */
-            color: #1b3a1b;
-        }
-        .css-1d391kg .stRadio label {
-            color: #1b3a1b;
-        }
+/* Hide Streamlit header/footer */
+header, footer {visibility: hidden;}
 
-        /* Cards */
-        .card {
-            background-color: #d4f1d4;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
+/* Main background */
+.main {
+    background: linear-gradient(
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.65)
+    ),
+    url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee");
+    background-size: cover;
+    background-position: center;
+}
 
-        /* Buttons */
-        .stButton>button {
-            background-color: #a0e0a0;
-            color: #1b3a1b;
-            font-family: 'Black Chancery', cursive;
-        }
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: rgba(15, 40, 25, 0.85);
+    backdrop-filter: blur(12px);
+}
 
-        /* Footer text */
-        .footer {
-            color: #1b3a1b;
-            font-family: 'Black Chancery', cursive;
-            font-size: 16px;
-        }
-    </style>
+/* Hero section */
+.hero {
+    padding: 120px 60px;
+}
 
-    <!-- Load Black Chancery font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Black+Chancery&display=swap" rel="stylesheet">
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    line-height: 1.1;
+}
+
+.hero p {
+    font-size: 20px;
+    max-width: 600px;
+    opacity: 0.9;
+}
+
+/* Glass cards */
+.glass {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 22px;
+    padding: 30px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+/* Buttons */
+.stButton>button {
+    background: linear-gradient(135deg, #7fbf9c, #4e8f6f);
+    color: #0f2a1c;
+    border-radius: 30px;
+    padding: 10px 28px;
+    border: none;
+    font-weight: 600;
+}
+
+.stButton>button:hover {
+    transform: scale(1.05);
+}
+
+/* Images */
+img {
+    border-radius: 18px;
+}
+
+</style>
 """, unsafe_allow_html=True)
 
-# ------------------ SIDEBAR NAVIGATION ------------------
-if "page" not in st.session_state:
-    st.session_state.page = "Home"
-
-st.sidebar.title("🌿 Eco Menu")
-st.session_state.page = st.sidebar.radio(
+# ------------------ SIDEBAR ------------------
+st.sidebar.title("🌿 Eco-Echo")
+page = st.sidebar.radio(
     "Navigate",
-    ["Home", "Plant Care Tips", "Daily Plant Game", "Environment News", "Global Solutions"],
-    key="sidebar_radio_unique"
+    ["Home", "Plant Care Tips", "Daily Plant Game", "Environment News", "Global Solutions"]
 )
-page = st.session_state.page
-
-# ------------------ TITLE ------------------
-st.title("🌱 Eco-Echo")
-st.subheader("Care for plants. Care for Earth.")
 
 # ------------------ HOME ------------------
 if page == "Home":
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    st.write(
-        "Eco-Echo is an educational app designed to help people learn about plant care, "
-        "environmental protection, and sustainable habits. Through simple tips, global "
-        "environmental updates, and a daily plant-care game, Eco-Echo encourages users "
-        "to make eco-friendly choices every day."
-    )
-    st.image(
-        "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
-        caption="Protect nature for future generations",
-        use_container_width=True
-    )
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="hero">
+        <h1>Step Into the<br>Stillness of Nature</h1>
+        <p>
+            Eco-Echo helps you reconnect with nature through mindful plant care,
+            sustainability education, and small daily actions that grow into real impact.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-# ------------------ PLANT CARE TIPS ------------------
+    st.markdown("""
+    <div class="glass">
+        <h2>🌱 Our Mission</h2>
+        <p>
+            We believe caring for a single plant can change how we care for the planet.
+            Eco-Echo blends education, interaction, and calm design to inspire sustainable living.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ------------------ PLANT CARE ------------------
 elif page == "Plant Care Tips":
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    st.header("🌿 Plant Care & Watering Tips")
+    st.markdown("<div class='glass'>", unsafe_allow_html=True)
+    st.header("🌿 Plant Care Essentials")
+
     st.image(
         "https://images.unsplash.com/photo-1501004318641-b39e6451bec6",
         use_container_width=True
     )
+
     st.markdown("""
-    - Water plants early in the morning or evening  
-    - Avoid overwatering; check soil moisture first  
-    - Use compost or natural fertilizers  
-    - Place plants where they receive proper sunlight  
-    - Remove dry or damaged leaves regularly  
+    - Water early morning or sunset  
+    - Check soil before watering  
+    - Use organic compost  
+    - Rotate plants for even sunlight  
+    - Trim damaged leaves regularly  
     """)
     st.markdown("</div>", unsafe_allow_html=True)
 
 # ------------------ DAILY PLANT GAME ------------------
 elif page == "Daily Plant Game":
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    st.header("🎮 Daily Plant Care Game")
+    st.markdown("<div class='glass'>", unsafe_allow_html=True)
+    st.header("🌱 Grow Your Plant")
 
-    # Initialize plant growth state
     if "watered" not in st.session_state:
         st.session_state.watered = False
         st.session_state.last_day = None
-        st.session_state.growth_stage = 0  # 0 = seed, 1 = sprout, 2 = small tree, 3 = grown tree
+        st.session_state.growth_stage = 0
 
     today = date.today()
 
-    # Reset daily watering
     if st.session_state.last_day != today:
         st.session_state.watered = False
         st.session_state.last_day = today
 
-    # Tree growth images based on stage
     growth_images = [
-        "https://i.imgur.com/Jf6F0G7.png",  # seed
-        "https://i.imgur.com/4a2p9Q6.png",  # sprout
-        "https://i.imgur.com/EJ2Vq7y.png",  # small tree
-        "https://i.imgur.com/q3RklbY.png"   # full grown tree
+        "https://i.imgur.com/Jf6F0G7.png",
+        "https://i.imgur.com/4a2p9Q6.png",
+        "https://i.imgur.com/EJ2Vq7y.png",
+        "https://i.imgur.com/q3RklbY.png"
     ]
 
     st.image(
         growth_images[st.session_state.growth_stage],
-        caption=f"🌳 Plant growth stage: {st.session_state.growth_stage}/3",
-        width=300
+        width=300,
+        caption=f"Growth Stage {st.session_state.growth_stage}/3"
     )
 
     if not st.session_state.watered:
-        if st.button("💧 Water Plant", key="water_button"):
+        if st.button("💧 Water Plant"):
             st.session_state.watered = True
-            # Increase growth stage (max 3)
             if st.session_state.growth_stage < 3:
                 st.session_state.growth_stage += 1
-            st.success("Great job! Your plant is happy today 🌱")
+            st.success("Your plant grows stronger 🌿")
     else:
-        st.info("You already watered your plant today. Come back tomorrow!")
+        st.info("Come back tomorrow to continue growing 🌱")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
 # ------------------ ENVIRONMENT NEWS ------------------
 elif page == "Environment News":
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    st.header("🌍 Environmental News")
+    st.markdown("<div class='glass'>", unsafe_allow_html=True)
+    st.header("🌍 Earth Today")
+
+    st.markdown("""
+    - Renewable energy adoption is accelerating  
+    - Global reforestation projects are expanding  
+    - Plastic bans increasing worldwide  
+    - Sustainable cities are on the rise  
+    """)
+
     st.image(
-        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+        "https://images.unsplash.com/photo-1469474968028-56623f02e42e",
         use_container_width=True
     )
-    st.markdown("""
-    - 🌡️ Climate change awareness is increasing worldwide  
-    - 🌳 Tree plantation drives are growing globally  
-    - ♻️ Recycling and plastic reduction initiatives are expanding  
-    - 🔋 Renewable energy usage is rising  
-    """)
     st.markdown("</div>", unsafe_allow_html=True)
 
 # ------------------ GLOBAL SOLUTIONS ------------------
 elif page == "Global Solutions":
-    st.markdown("<div class='card'>", unsafe_allow_html=True)
-    st.header("🏛️ Global Environmental Solutions")
+    st.markdown("<div class='glass'>", unsafe_allow_html=True)
+    st.header("🌎 Global Green Solutions")
+
     st.markdown("""
-    **🌱 Germany:** Investment in renewable energy and recycling systems  
-    **🌿 India:** Large-scale tree plantation and solar power missions  
-    **🌍 Sweden:** Waste-to-energy programs and low emissions policies  
-    **🌳 Costa Rica:** Forest conservation and eco-tourism initiatives  
+    **Germany** – Renewable energy leadership  
+    **India** – Solar missions & tree drives  
+    **Sweden** – Waste-to-energy innovation  
+    **Costa Rica** – Eco-tourism & conservation  
     """)
+
     st.image(
         "https://images.unsplash.com/photo-1483729558449-99ef09a8c325",
         use_container_width=True
@@ -191,6 +214,8 @@ elif page == "Global Solutions":
     st.markdown("</div>", unsafe_allow_html=True)
 
 # ------------------ FOOTER ------------------
-st.markdown("---")
-st.markdown('<p class="footer">🌱 Eco-Echo – Small steps, big impact.</p>', unsafe_allow_html=True)
-
+st.markdown("""
+<p style="text-align:center; opacity:0.7; margin-top:40px;">
+Eco-Echo 🌿 — Small steps. Living forests.
+</p>
+""", unsafe_allow_html=True)
