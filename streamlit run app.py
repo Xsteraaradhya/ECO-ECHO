@@ -507,4 +507,4 @@ st.markdown("""
     <div class="stat-pill">Carbon Neutral</div>
 </div>
 """, unsafe_allow_html=True)
-```
+
