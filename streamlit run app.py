@@ -3,8 +3,8 @@ from datetime import date
 
 # ------------------ CONFIG ------------------
 st.set_page_config(
-    page_title="EcoVista",
-    page_icon="🌿",
+    page_title="Eco-Echo",
+    page_icon="🌿🌍🌿",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -30,7 +30,7 @@ header, footer {visibility: hidden;}
 /* MAIN APP BACKGROUND */
 .stApp {
     background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.95)), 
-        url("https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1948&auto=format&fit=crop");
+        url("https://www.pexels.com/photo/white-windmill-414837/");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
