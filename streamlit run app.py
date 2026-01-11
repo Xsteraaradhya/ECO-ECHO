@@ -34,10 +34,11 @@ st.title("🌱 Eco-Echo")
 st.subheader("Care for plants. Care for Earth.")
 
 # ------------------ SIDEBAR ------------------
-st.sidebar.title("🌿 Menu")
-page = st.sidebar.radio(
+
+   page = st.sidebar.radio(
     "Navigate",
-    ["Home", "Plant Care Tips", "Daily Plant Game", "Environment News", "Global Solutions"]
+    ["Home", "Plant Care Tips", "Daily Plant Game", "Environment News", "Global Solutions"],
+    key="navigation"
 )
 
 # ------------------ HOME ------------------
