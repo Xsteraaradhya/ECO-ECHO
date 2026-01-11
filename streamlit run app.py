@@ -1,434 +1,336 @@
-
 import streamlit as st
 from datetime import date
 
 # ------------------ CONFIG ------------------
 st.set_page_config(
-    page_title="Eco-Echo",
+    page_title="EcoVista",
     page_icon="🌿",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ------------------ APPLE-STYLE CINEMATIC CSS ------------------
+# ------------------ CSS ------------------
 st.markdown("""
 <style>
-/* --- FONTS --- */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@200;300;400;600&display=swap');
+/* FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
 
-/* --- GLOBAL RESET & VIBE --- */
+/* GLOBAL RESETS */
 html, body, [class="css-1d391kg"] {
     margin: 0;
     padding: 0;
-    background-color: #000000;
-    color: #f5f5f7;
-    font-family: 'Cormorant Garamond', serif;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
+    background-color: #f9fbf9;
+    color: #2c3e50;
+    font-family: 'Roboto', sans-serif;
 }
 
-/* HIDING STREAMLIT DEFAULTS */
-header, footer { visibility: hidden; }
-#MainMenu { visibility: hidden; }
+/* HIDING DEFAULT STREAMLIT ELEMENTS */
+header, footer {visibility: hidden;}
 
-/* --- TYPOGRAPHY --- */
-h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 700;
-    font-size: 5.5rem;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    background: linear-gradient(180deg, #ffffff 0%, #a3e6cd 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 20px;
+/* MAIN APP BACKGROUND */
+.stApp {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.95)), 
+        url("https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1948&auto=format&fit=crop");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-h2 {
-    font-family: 'Great Vibes', cursive; /* The "Hot" Cursive Font */
-    font-size: 3.5rem;
-    color: #86efac;
-    margin-bottom: 10px;
-}
-
-h3 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    font-size: 1.5rem;
-    color: #e0e0e0;
-    letter-spacing: 0.05em;
-}
-
-p {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: #86868b;
-}
-
-/* --- SIDEBAR --- */
+/* SIDEBAR CUSTOMIZATION (To match the clean theme) */
 section[data-testid="stSidebar"] {
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(20px);
-    border-right: 1px solid rgba(255,255,255,0.1);
-    width: 300px !important;
+    background: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    padding-top: 20px;
 }
 
 section[data-testid="stSidebar"] .css-ng1t4o {
-    font-family: 'Montserrat', sans-serif;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    color: #86868b;
-    margin-bottom: 2rem;
+    color: #196f3d;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
 }
 
 section[data-testid="stSidebar"] label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #f5f5f7;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    color: #555;
+    font-size: 1rem;
+    padding: 10px 0;
 }
 
 section[data-testid="stSidebar"] label:hover {
-    color: #86efac;
-    transform: translateX(10px);
+    color: #196f3d;
+    background: #f0fdf4;
+    border-radius: 5px;
 }
 
-/* --- HEADER --- */
-.sticky-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 48px;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    z-index: 9999;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    transition: background 0.3s ease;
-}
-
-.header-content {
-    max-width: 980px;
-    margin: 0 auto;
-    height: 100%;
+/* NAV BAR (Visual) */
+.nav-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 15px 5%;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(10px);
 }
 
-.apple-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    color: #f5f5f7;
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    color: #196f3d;
+    text-decoration: none;
+}
+
+.logo-icon {
+    margin-right: 10px;
+    font-size: 28px;
 }
 
 .nav-links a {
-    color: #d1d1d1;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.75rem;
+    color: #196f3d;
     text-decoration: none;
-    margin-left: 24px;
-    transition: color 0.3s ease;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 25px;
+    transition: color 0.3s;
 }
 
 .nav-links a:hover {
-    color: #ffffff;
+    color: #0e3d20;
 }
 
-/* --- HERO SECTION (iPhone Style) --- */
-.hero-section {
-    position: relative;
-    height: 100vh;
-    width: 100%;
+.book-btn {
+    background: #196f3d;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+    box-shadow: 0 4px 6px rgba(25, 111, 61, 0.2);
+}
+
+.book-btn:hover {
+    background: #0e3d20;
+}
+
+/* HERO */
+.hero {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding-top: 120px;
+    justify-content: center;
     text-align: center;
-    overflow: hidden;
-    background-color: #000;
+    padding: 80px 5%;
 }
 
-.hero-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=2069&auto=format&fit=crop'); /* Dark Forest */
-    background-size: cover;
-    background-position: center;
-    z-index: -2;
-    opacity: 0.6;
-    animation: mistMove 30s infinite alternate ease-in-out;
-}
-
-.mist-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background: linear-gradient(to top, #000000, transparent);
-    z-index: -1;
-    pointer-events: none;
-}
-
-.hero-text-wrapper {
-    z-index: 10;
+.hero h1 {
+    font-size: 4rem;
+    color: #196f3d;
+    line-height: 1.1;
+    margin: 0;
     max-width: 800px;
-    margin-bottom: 40px;
+    font-weight: 700;
 }
 
-.cta-button {
-    background: #2997ff; /* Apple Blue style, but we can tweak to green */
-    background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+.hero p {
+    font-size: 1.2rem;
+    color: #57606f;
+    max-width: 600px;
+    margin: 20px 0 40px;
+    font-weight: 300;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.hero-btn {
+    background: #196f3d;
     color: white;
-    padding: 12px 24px;
-    border-radius: 980px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.1rem;
+    padding: 15px 35px;
+    border-radius: 30px;
     text-decoration: none;
-    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+    font-weight: 600;
+    transition: transform 0.2s;
 }
 
-.cta-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(5, 150, 105, 0.6);
+.hero-btn-secondary {
+    background: transparent;
+    border: 2px solid #196f3d;
+    color: #196f3d;
+    padding: 13px 33px;
 }
 
-/* --- SCROLLING SECTIONS (Bento Grid Style) --- */
-.bento-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding: 20px;
+.hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(25, 111, 61, 0.3);
+}
+
+/* CONTENT CONTAINER */
+.page-content {
+    padding: 40px 5%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.bento-item {
-    background: #151516;
-    border-radius: 28px;
-    padding: 40px;
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
-.bento-item:hover {
-    transform: scale(1.02);
-}
-
-.bento-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.7;
-    transition: opacity 0.5s ease;
-    z-index: 1;
-}
-
-.bento-item:hover .bento-img {
-    opacity: 0.9;
-}
-
-.bento-content {
-    position: relative;
-    z-index: 2;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-    padding-top: 60px;
-}
-
-/* --- DARK GLASS PANEL --- */
-.dark-glass {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    padding: 60px;
-    margin: 100px 8%;
-}
-
-/* --- ANIMATIONS --- */
-@keyframes mistMove {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
-}
-
-/* --- FLOATING BAR --- */
-.floating-stats {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(28, 28, 30, 0.85);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    padding: 10px 20px;
-    border-radius: 50px;
-    border: 1px solid rgba(255,255,255,0.1);
-    z-index: 1000;
-    display: flex;
+/* CARDS (White & Clean) */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    margin-top: 30px;
 }
 
-.stat-pill {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.8rem;
-    color: #f5f5f7;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid #f0f0f0;
 }
 
-/* --- RESPONSIVE --- */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-color: #196f3d;
+}
+
+.card h3 {
+    color: #196f3d;
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.card p {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* PLANT PAGE */
+.plant-container {
+    text-align: center;
+    background: white;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+}
+
+.plant-img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 30px 0;
+    border: 5px solid #f0fdf4;
+}
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
-    h1 { font-size: 3rem; }
-    .bento-grid { grid-template-columns: 1fr; }
-    .hero-bg { opacity: 0.4; }
-    .floating-stats { width: 90%; justify-content: space-around; bottom: 20px;}
+    .hero h1 { font-size: 2.5rem; }
+    .nav-links { display: none; } /* Hide top links on mobile, use sidebar */
+    .hero-buttons { flex-direction: column; width: 100%; }
+    .hero-btn { width: 100%; text-align: center; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ------------------ STICKY HEADER ------------------
+# ------------------ TOP NAV BAR ------------------
 st.markdown("""
-<div class="sticky-header">
-    <div class="header-content">
-        <div class="apple-logo">Eco-Echo </div>
-        <div class="nav-links">
-            <a href="#">Store</a>
-            <a href="#">Mac</a>
-            <a href="#">iPad</a>
-            <a href="#">Nature</a>
-            <a href="#">Support</a>
-        </div>
+<div class="nav-bar">
+    <div class="logo">
+        <span class="logo-icon">🌿</span>
+        EcoVista
     </div>
+    <div class="nav-links">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">About Us</a>
+        <a href="#" class="nav-link">Experiences</a>
+        <a href="#" class="nav-link">Sustainability</a>
+    </div>
+    <a href="#" class="book-btn">Book Now</a>
 </div>
 """, unsafe_allow_html=True)
 
-# ------------------ SIDEBAR NAV ------------------
-st.sidebar.markdown("""
-<div style="margin-top: 80px; margin-bottom: 40px;">
-    <h1 style="font-size: 2.5rem; color: #fff; margin:0;">Eco-Echo</h1>
-</div>
-""", unsafe_allow_html=True)
+# ------------------ SIDEBAR (LOGIC) ------------------
+st.sidebar.title("Navigation")
 
+# Use a radio button to switch pages
 page = st.sidebar.radio(
-    "", 
-    ["Home", "Plant Care", "Daily Plant", "Earth Today", "Global Action"],
-    label_visibility="collapsed"
+    "Go to",
+    ["Home", "Plant Care", "Daily Plant", "Earth Today", "Global Action"]
 )
 
 # ------------------ PAGE LOGIC ------------------
-if page == "Home":
-    # 1. HERO SECTION
-    st.markdown("""
-    <section class="hero-section">
-        <div class="hero-bg"></div>
-        <div class="mist-overlay"></div>
-        
-        <div class="hero-text-wrapper">
-            <h2>Pro. Beyond.</h2>
-            <h1>Reclaiming the<br>Wild Within.</h1>
-            <p style="margin-bottom: 30px;">The most advanced ecosystem ever designed.<br>Deeply immersive. Simply beautiful.</p>
-            <a href="#" class="cta-button">Watch the Film</a>
-            <a href="#" class="cta-button" style="background: transparent; border: 1px solid #34d399; margin-left: 10px;">Learn more</a>
-        </div>
-    </section>
-    """, unsafe_allow_html=True)
 
-    # 2. BENTO GRID SHOWCASE
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
+if page == "Home":
     st.markdown("""
-    <div class="bento-grid">
-        <div class="bento-item">
-            <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=1613&auto=format&fit=crop" class="bento-img">
-            <div class="bento-content">
-                <h3>Titanium. Strong.</h3>
-                <h2>Forest Shield</h2>
-                <p>Forged in the deepest woods, our protection is natural yet impenetrable.</p>
-            </div>
-        </div>
-        <div class="bento-item">
-            <img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&w=1647&auto=format&fit=crop" class="bento-img">
-            <div class="bento-content">
-                <h3>A17 Bionic Chip</h3>
-                <h2>Photosynthesis</h2>
-                <p>Nature’s power source. Unlimited energy from a single leaf.</p>
-            </div>
-        </div>
-        <div class="bento-item" style="grid-column: span 2;">
-            <img src="https://images.unsplash.com/photo-1462275646964-a0e3571f4f7f?q=80&w=1628&auto=format&fit=crop" class="bento-img">
-            <div class="bento-content" style="text-align: center; background: linear-gradient(to top, #000 0%, transparent 100%);">
-                <h2>The Ocean. Clean.</h2>
-                <p>Retina-level clarity in every wave.</p>
-            </div>
+    <div class="hero">
+        <h1>Step Into the<br>Stillness of Nature.</h1>
+        <p>Rediscover the beauty of the outdoors through curated retreats, immersive eco-experiences, and sustainable travel tailored to your soul.</p>
+        <div class="hero-buttons">
+            <a href="#" class="hero-btn">Explore Our Journeys</a>
+            <a href="#" class="hero-btn hero-btn-secondary">Learn About Our Mission</a>
         </div>
     </div>
     """, unsafe_allow_html=True)
     
-    # 3. TEXT SECTION
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<div class='page-content'>", unsafe_allow_html=True)
+    st.markdown("### Why Choose EcoVista?")
     st.markdown("""
-    <div class="dark-glass" style="text-align: center; margin-top: 100px;">
-        <h2 style="color: #fff;">Designed for Earth.</h2>
-        <h3 style="color: #86868b; font-weight: 300; max-width: 600px; margin: 0 auto;">
-            Every curve, every shadow, every pixel is crafted to bring you closer to nature. 
-            It’s not just a website. It’s a movement.
-        </h3>
-    </div>
-    """, unsafe_allow_html=True)
-
-elif page == "Plant Care":
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    st.markdown("""
-    <div class="dark-glass">
-        <h2>Botanical Pro</h2>
-        <h3>Intelligent Care System.</h3>
-        <div style="margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
-            <div style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 10px;">💧</div>
-                <h4>Hydration</h4>
-                <p>Precision watering sensors.</p>
+        <div class="feature-grid">
+            <div class="card">
+                <h3>🌱 Sustainable</h3>
+                <p>Our retreats are 100% carbon neutral and support local conservation efforts.</p>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 10px;">☀️</div>
-                <h4>Light</h4>
-                <p>Adaptive spectral analysis.</p>
+            <div class="card">
+                <h3>🧘 Mindful</h3>
+                <p>Curated experiences that connect you deeply with the environment.</p>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 3rem; margin-bottom: 10px;">🍃</div>
-                <h4>Nutrients</h4>
-                <p>Soil health monitoring.</p>
+            <div class="card">
+                <h3>🌍 Exclusive</h3>
+                <p>Access to hidden natural gems unavailable to the general public.</p>
             </div>
         </div>
-    </div>
     """, unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+elif page == "Plant Care":
+    st.markdown("<div class='page-content'>", unsafe_allow_html=True)
+    st.markdown("<h1>Plant Care Essentials</h1>", unsafe_allow_html=True)
+    st.markdown("<p>Expert advice to keep your botanical friends thriving.</p>", unsafe_allow_html=True)
+    
+    st.markdown("""
+        <div class="feature-grid">
+            <div class="card">
+                <h3>💧 Watering</h3>
+                <p>Most plants prefer to dry out slightly between waterings. Stick your finger into the soil—if it's dry an inch down, it's time to water.</p>
+            </div>
+            <div class="card">
+                <h3>☀️ Light</h3>
+                <p>Understand your plant's needs. Low light doesn't mean no light. Rotate your plants weekly for even growth.</p>
+            </div>
+            <div class="card">
+                <h3>✂️ Pruning</h3>
+                <p>Don't be afraid to trim. Removing dead leaves encourages new growth and keeps pests away.</p>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
 elif page == "Daily Plant":
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    # Session State Logic
+    st.markdown("<div class='page-content'>", unsafe_allow_html=True)
+    st.markdown("<h1>Your Digital Companion</h1>", unsafe_allow_html=True)
+    st.markdown("<p>Nurture a virtual plant daily to build a habit of care.</p>", unsafe_allow_html=True)
+    
+    # Logic for Daily Plant
     if "stage" not in st.session_state:
         st.session_state.stage = 0
         st.session_state.last = None
@@ -447,64 +349,63 @@ elif page == "Daily Plant":
     ]
 
     st.markdown(f"""
-    <div style="text-align: center; margin-top: 50px;">
-        <h2>Your Digital Forest</h2>
-        <p>Tap to Nurture. Experience the growth.</p>
-        <img src="{images[st.session_state.stage]}" style="width: 300px; height: 300px; object-fit: cover; border-radius: 50%; border: 4px solid #333; box-shadow: 0 0 50px rgba(52, 211, 153, 0.2);">
+    <div class="plant-container">
+        <img src="{images[st.session_state.stage]}" class="plant-img">
     </div>
     """, unsafe_allow_html=True)
 
     if not st.session_state.watered:
-        col1, col2, col3 = st.columns([1,2,1])
+        col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("✨ Nurture Now", use_container_width=True):
+            if st.button("💧 Nurture Plant", use_container_width=True):
                 st.session_state.watered = True
                 st.session_state.stage = min(3, st.session_state.stage + 1)
-                st.success("Growth sequence initiated.")
+                st.success("Your care has helped it grow!")
     else:
-        st.info("Cycle complete. Return tomorrow for the next stage.")
+        st.info("You have already nurtured your plant today. Come back tomorrow!")
+    
+    st.markdown("</div>", unsafe_allow_html=True)
 
 elif page == "Earth Today":
-    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<div class='page-content'>", unsafe_allow_html=True)
+    st.markdown("<h1>Earth Today</h1>", unsafe_allow_html=True)
     st.markdown("""
-    <div style="height: 80vh; position: relative; overflow: hidden; border-radius: 30px; margin: 0 5%;">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover;">
-        <div style="position: absolute; bottom: 40px; left: 40px; background: rgba(0,0,0,0.6); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px);">
-            <h2>Planet Earth</h2>
-            <h3>The Ultimate Edition.</h3>
-            <p>Real-time ecosystem data.</p>
+    <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; margin-top: 30px;">
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" style="width: 100%; max-width: 500px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+        <div>
+            <h3 style="color: #196f3d; font-size: 2rem; margin-bottom: 10px;">Healing the Planet</h3>
+            <p style="font-size: 1.1rem; color: #555;">
+                Global efforts are underway to restore our ecosystems. From reforestation projects in the Amazon to ocean cleanup initiatives in the Pacific, positive change is happening. 
+                <br><br>
+                Today, we celebrate the resilience of nature and the communities dedicated to protecting it.
+            </p>
         </div>
     </div>
     """, unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
 elif page == "Global Action":
-    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<div class='page-content'>", unsafe_allow_html=True)
+    st.markdown("<h1>Global Action</h1>", unsafe_allow_html=True)
+    st.markdown("<p>Join the movement. See how the world is taking action.</p>", unsafe_allow_html=True)
+    
     st.markdown("""
-    <div class="bento-grid">
-        <div class="bento-item">
-            <img src="https://images.unsplash.com/photo-1596395919256-03bba77e48d7?q=80&w=2070&auto=format&fit=crop" class="bento-img">
-            <div class="bento-content">
-                <h2>Reforestation</h2>
-                <p>Project Costa Rica.</p>
+        <div class="feature-grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1596395919256-03bba77e48d7?q=80&w=2070&auto=format&fit=crop" style="width:100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+                <h3>Costa Rica</h3>
+                <p>Aiming to be the first carbon-neutral country through massive reforestation.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=2070&auto=format&fit=crop" style="width:100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+                <h3>Germany</h3>
+                <p>Leading the world in renewable energy adoption and green technology.</p>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=2071&auto=format&fit=crop" style="width:100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 15px;">
+                <h3>Norway</h3>
+                <p>Protecting vast marine areas and investing heavily in electric transportation.</p>
             </div>
         </div>
-        <div class="bento-item">
-            <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=2070&auto=format&fit=crop" class="bento-img">
-            <div class="bento-content">
-                <h2>Ocean Cleanup</h2>
-                <p>Project Pacific.</p>
-            </div>
-        </div>
-    </div>
     """, unsafe_allow_html=True)
-
-# ------------------ FLOATING STATS BAR ------------------
-st.markdown("""
-<div class="floating-stats">
-    <div class="stat-pill"><span style="color: #34d399;">●</span> Live</div>
-    <div class="stat-pill">12,405 Guardians</div>
-    <div class="stat-pill">Carbon Neutral</div>
-</div>
-""", unsafe_allow_html=True)
-
+    st.markdown("</div>", unsafe_allow_html=True)
