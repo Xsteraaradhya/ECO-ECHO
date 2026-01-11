@@ -81,7 +81,7 @@ section[data-testid="stSidebar"] label {
 /* HERO */
 .hero {
     text-align: center;
-    padding: 90px 5%;
+    padding: 80px 5%;
 }
 
 .hero h1 {
@@ -92,6 +92,23 @@ section[data-testid="stSidebar"] label {
     font-size: 1.3rem;
     max-width: 650px;
     margin: 20px auto;
+}
+
+/* HERO IMAGE */
+.hero-image {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto 0;
+    border-radius: 25px;
+    overflow: hidden;
+    border: 3px solid #b7e4c7;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* BUTTONS */
@@ -116,10 +133,7 @@ section[data-testid="stSidebar"] label {
     padding: 30px;
     border: 2px solid #d8f3dc;
     box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-}
-
-.card h3 {
-    font-weight: bold;
+    margin-top: 25px;
 }
 
 /* PLANT */
@@ -128,6 +142,7 @@ section[data-testid="stSidebar"] label {
     padding: 50px;
     border-radius: 30px;
     border: 3px solid #b7e4c7;
+    text-align: center;
 }
 
 .plant-img {
@@ -176,10 +191,15 @@ if page == "Home":
     st.markdown("""
     <div class="hero">
         <h1>Step Into the Stillness of Nature</h1>
-        <p>Rediscover the outdoors through immersive, mindful, and sustainable experiences.</p>
+        <p>Rediscover the outdoors through immersive, mindful, and sustainable experiences designed to reconnect people with the planet.</p>
+
         <a class="hero-btn">Explore Journeys</a>
         <br><br>
         <a class="hero-btn hero-btn-secondary">Our Mission</a>
+
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=2070&auto=format&fit=crop">
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -188,7 +208,17 @@ elif page == "Plant Care":
     st.markdown("""
     <div class="card">
         <h3>Watering</h3>
-        <p>Allow soil to partially dry before watering.</p>
+        <p>Allow soil to partially dry between watering cycles to support healthy root systems.</p>
+    </div>
+
+    <div class="card">
+        <h3>Light</h3>
+        <p>Position plants where they receive consistent indirect sunlight throughout the day.</p>
+    </div>
+
+    <div class="card">
+        <h3>Maintenance</h3>
+        <p>Remove damaged leaves regularly to promote balanced and steady growth.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -220,12 +250,28 @@ elif page == "Daily Plant":
         if st.button("💧 Nurture Plant"):
             st.session_state.stage = min(3, st.session_state.stage + 1)
             st.session_state.watered = True
-            st.success("Growth complete for today.")
+            st.success("Daily care recorded.")
 
 elif page == "Earth Today":
     st.markdown("## 🌍 Earth Today")
-    st.write("Global restoration and sustainability initiatives continue worldwide.")
+    st.markdown("""
+    <div class="card">
+        <p>Renewable energy projects, conservation programs, and sustainable practices continue to expand across the globe, contributing to long-term environmental stability.</p>
+    </div>
+
+    <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2070&auto=format&fit=crop">
+    </div>
+    """, unsafe_allow_html=True)
 
 elif page == "Global Action":
     st.markdown("## 🌱 Global Action")
-    st.write("Communities across the world are investing in renewable futures.")
+    st.markdown("""
+    <div class="card">
+        <p>Communities worldwide are investing in renewable infrastructure, ecosystem restoration, and sustainable transportation systems.</p>
+    </div>
+
+    <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=2071&auto=format&fit=crop">
+    </div>
+    """, unsafe_allow_html=True)
