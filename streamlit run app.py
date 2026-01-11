@@ -8,70 +8,71 @@ st.set_page_config(
     layout="wide"
 )
 
-# ------------------ CUSTOM CSS (Victorian Style) ------------------
+# ------------------ CUSTOM CSS (Hello Kitty Green + Black Chancery) ------------------
 st.markdown("""
     <style>
         /* Page background */
         body {
-            background-color: #eaf7ef;
-            font-family: 'Cinzel', serif; /* Victorian-style font */
-            color: #3b3b3b; /* dark grey, not black */
+            background-color: #c8f2c8;  /* Hello Kitty green pastel */
+            font-family: 'Black Chancery', cursive;
+            color: #1b3a1b;  /* Dark green text */
         }
 
         /* Main container */
         .main {
-            background-color: #eaf7ef;
+            background-color: #c8f2c8;
         }
 
         /* Headers */
         h1, h2, h3 {
-            color: #2f7d32;
-            font-family: 'Cinzel', serif;
+            color: #1b3a1b;
+            font-family: 'Black Chancery', cursive;
         }
 
-        /* Sidebar styling */
+        /* Sidebar */
         .css-1d391kg {
-            background-color: #dff5e3;
-            color: #3b3b3b;
+            background-color: #b8e6b8;  /* pastel green */
+            color: #1b3a1b;
         }
         .css-1d391kg .stRadio label {
-            color: #3b3b3b;
+            color: #1b3a1b;
         }
 
         /* Cards */
         .card {
-            background-color: #dff5e3;
+            background-color: #d4f1d4;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
         }
 
+        /* Buttons */
+        .stButton>button {
+            background-color: #a0e0a0;
+            color: #1b3a1b;
+            font-family: 'Black Chancery', cursive;
+        }
+
         /* Footer text */
         .footer {
-            color: #2f7d32;
-            font-family: 'Cinzel', serif;
+            color: #1b3a1b;
+            font-family: 'Black Chancery', cursive;
             font-size: 16px;
         }
     </style>
 
-    <!-- Load Victorian-style font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Load Black Chancery font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Chancery&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
 # ------------------ SIDEBAR NAVIGATION ------------------
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
-st.sidebar.title("🌿 Menu")
+st.sidebar.title("🌿 Eco Menu")
 st.session_state.page = st.sidebar.radio(
     "Navigate",
-    [
-        "Home",
-        "Plant Care Tips",
-        "Daily Plant Game",
-        "Environment News",
-        "Global Solutions"
-    ],
+    ["Home", "Plant Care Tips", "Daily Plant Game", "Environment News", "Global Solutions"],
     key="sidebar_radio_unique"
 )
 page = st.session_state.page
@@ -118,25 +119,39 @@ elif page == "Daily Plant Game":
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.header("🎮 Daily Plant Care Game")
 
+    # Initialize plant growth state
     if "watered" not in st.session_state:
         st.session_state.watered = False
         st.session_state.last_day = None
+        st.session_state.growth_stage = 0  # 0 = seed, 1 = sprout, 2 = small tree, 3 = grown tree
 
     today = date.today()
 
+    # Reset daily watering
     if st.session_state.last_day != today:
         st.session_state.watered = False
         st.session_state.last_day = today
 
+    # Tree growth images based on stage
+    growth_images = [
+        "https://i.imgur.com/Jf6F0G7.png",  # seed
+        "https://i.imgur.com/4a2p9Q6.png",  # sprout
+        "https://i.imgur.com/EJ2Vq7y.png",  # small tree
+        "https://i.imgur.com/q3RklbY.png"   # full grown tree
+    ]
+
     st.image(
-        "https://images.unsplash.com/photo-1524594154908-eddc6f1a1b13",
-        caption="Your virtual plant",
+        growth_images[st.session_state.growth_stage],
+        caption=f"🌳 Plant growth stage: {st.session_state.growth_stage}/3",
         width=300
     )
 
     if not st.session_state.watered:
         if st.button("💧 Water Plant", key="water_button"):
             st.session_state.watered = True
+            # Increase growth stage (max 3)
+            if st.session_state.growth_stage < 3:
+                st.session_state.growth_stage += 1
             st.success("Great job! Your plant is happy today 🌱")
     else:
         st.info("You already watered your plant today. Come back tomorrow!")
@@ -178,3 +193,4 @@ elif page == "Global Solutions":
 # ------------------ FOOTER ------------------
 st.markdown("---")
 st.markdown('<p class="footer">🌱 Eco-Echo – Small steps, big impact.</p>', unsafe_allow_html=True)
+
