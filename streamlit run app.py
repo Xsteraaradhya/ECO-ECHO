@@ -2,11 +2,20 @@ import streamlit as st
 from datetime import date
 
 # ------------------ PAGE CONFIG ------------------
-st.set_page_config(
-    page_title="Eco-Echo 🌱",
-    page_icon="🌿",
-    layout="wide"
+# ---------- SIDEBAR NAVIGATION (SAFE) ----------
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
+
+st.sidebar.title("🌿 Menu")
+
+st.session_state.page = st.sidebar.radio(
+    "Navigate",
+    ["Home", "Plant Care Tips", "Daily Plant Game", "Environment News", "Global Solutions"],
+    key="sidebar_radio_unique"
 )
+
+page = st.session_state.page
+
 
 # ------------------ CUSTOM CSS ------------------
 st.markdown("""
