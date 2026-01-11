@@ -1,6 +1,4 @@
-Here is the code redesigned to match the **Apple-style aesthetic**: deep cinematic vibes, smooth scrolling parallax, misty gradients, and the "hot" typography mix of elegant cursive and bold serif.
 
-```python
 import streamlit as st
 from datetime import date
 
