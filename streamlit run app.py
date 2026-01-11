@@ -25,7 +25,9 @@ st.markdown("""
 }
 
 /* HIDE STREAMLIT UI */
-header, footer {visibility: hidden;}
+header, footer {
+    visibility: hidden;
+}
 
 /* SIDEBAR */
 section[data-testid="stSidebar"] {
@@ -107,7 +109,6 @@ section[data-testid="stSidebar"] label {
 
 .hero-image img {
     width: 100%;
-    height: auto;
     display: block;
 }
 
@@ -154,8 +155,12 @@ section[data-testid="stSidebar"] label {
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-    .hero h1 { font-size: 2.6rem; }
-    .nav-links { display: none; }
+    .hero h1 {
+        font-size: 2.6rem;
+    }
+    .nav-links {
+        display: none;
+    }
 }
 
 </style>
@@ -191,7 +196,7 @@ if page == "Home":
     st.markdown("""
     <div class="hero">
         <h1>Step Into the Stillness of Nature</h1>
-        <p>Rediscover the outdoors through immersive, mindful, and sustainable experiences designed to reconnect people with the planet.</p>
+        <p>Rediscover the outdoors through immersive, mindful, and sustainable experiences.</p>
 
         <a class="hero-btn">Explore Journeys</a>
         <br><br>
@@ -208,17 +213,7 @@ elif page == "Plant Care":
     st.markdown("""
     <div class="card">
         <h3>Watering</h3>
-        <p>Allow soil to partially dry between watering cycles to support healthy root systems.</p>
-    </div>
-
-    <div class="card">
-        <h3>Light</h3>
-        <p>Position plants where they receive consistent indirect sunlight throughout the day.</p>
-    </div>
-
-    <div class="card">
-        <h3>Maintenance</h3>
-        <p>Remove damaged leaves regularly to promote balanced and steady growth.</p>
+        <p>Allow soil to partially dry before watering.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -250,13 +245,13 @@ elif page == "Daily Plant":
         if st.button("💧 Nurture Plant"):
             st.session_state.stage = min(3, st.session_state.stage + 1)
             st.session_state.watered = True
-            st.success("Daily care recorded.")
+            st.success("Growth complete for today.")
 
 elif page == "Earth Today":
     st.markdown("## 🌍 Earth Today")
     st.markdown("""
     <div class="card">
-        <p>Renewable energy projects, conservation programs, and sustainable practices continue to expand across the globe, contributing to long-term environmental stability.</p>
+        <p>Global restoration and sustainability initiatives continue worldwide.</p>
     </div>
 
     <div class="hero-image">
@@ -268,10 +263,6 @@ elif page == "Global Action":
     st.markdown("## 🌱 Global Action")
     st.markdown("""
     <div class="card">
-        <p>Communities worldwide are investing in renewable infrastructure, ecosystem restoration, and sustainable transportation systems.</p>
-    </div>
-
-    <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=2071&auto=format&fit=crop">
+        <p>Communities across the world are investing in renewable futures.</p>
     </div>
     """, unsafe_allow_html=True)
