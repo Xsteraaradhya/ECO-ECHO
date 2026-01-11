@@ -5,278 +5,325 @@ from datetime import date
 st.set_page_config(
     page_title="Eco-Echo",
     page_icon="🌿",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# ------------------ ADVANCED CINEMATIC CSS ------------------
+# ------------------ PREMIUM CINEMATIC CSS ------------------
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap');
+/* IMPORTING FONTS: 'Allura' for aesthetic cursive headers, 'Cormorant Garamond' for body */
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400&display=swap');
 
-html, body {
+/* GLOBAL RESETS */
+html, body, [class="css-1d391kg"] {
     margin: 0;
     padding: 0;
-    background-color: #062C1B;
-    color: #eef5f0;
-    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #032b1e 0%, #0a402b 100%);
+    color: #e6f4ea;
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
 }
 
-header, footer {visibility: hidden;}
+/* HIDING DEFAULT STREAMLIT ELEMENTS */
+header, footer { visibility: hidden; }
+#MainMenu { visibility: hidden; }
 
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #062C1B, #0A3A26);
-    color: #eaf5ee;
-}
-
+/* TYPOGRAPHY */
 h1, h2, h3 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Allura', cursive;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    color: #f0fdf4;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+h1 { font-size: 5rem; line-height: 1.1; }
+h2 { font-size: 3.5rem; }
+h3 { font-size: 2.5rem; }
+
+p, li, span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: #d1e7dd;
+}
+
+/* SIDEBAR CUSTOMIZATION */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #021e14 0%, #064d32 100%);
+    color: #e6f4ea;
+    border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+section[data-testid="stSidebar"] .css-ng1t4o {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+section[data-testid="stSidebar"] label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: #a7f3d0;
+}
+
+/* GLASSMORPHISM UTILITIES */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.glass-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* HEADER */
 .sticky-header {
-    position: sticky;
+    position: fixed;
     top: 0;
-    background: rgba(255,255,255,0.05);
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: rgba(3, 43, 30, 0.7);
     backdrop-filter: blur(20px);
-    padding: 15px 8%;
+    -webkit-backdrop-filter: blur(20px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1000;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 0 8%;
+    z-index: 999;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.sticky-header .logo {
-    font-size: 24px;
-    font-weight: 700;
+.logo {
+    font-family: 'Allura', cursive;
+    font-size: 2.5rem;
+    color: #86efac;
+    text-decoration: none;
 }
 
-.sticky-header .nav-button {
-    padding: 10px 24px;
-    background: #32CD32;
-    color: #062C1B;
-    border-radius: 40px;
+.nav-btn {
+    padding: 10px 30px;
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+    color: #022c22;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
-    box-shadow: 0 0 15px rgba(50,205,50,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-/* HERO */
-.hero {
-    height: 92vh;
-    background:
-        linear-gradient(rgba(6,44,27,0.55), rgba(6,44,27,0.85)),
-        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed; /* Parallax effect */
+.nav-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(74, 222, 128, 0.6);
+}
+
+/* HERO SECTION */
+.hero-container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
     display: flex;
     align-items: center;
-    padding-left: 8%;
-    position: relative;
+    justify-content: center;
+    text-align: center;
     overflow: hidden;
+    margin-top: -80px; /* Offset header */
 }
 
-.hero-content h1 {
-    font-size: 72px;
-    line-height: 1.05;
-    font-weight: 700;
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1440557653026-d8d89441202b?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+    animation: slowZoom 20s infinite alternate;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(3,43,30,0.3), rgba(3,43,30,0.9));
+    z-index: -1;
+}
+
+.hero-content {
+    max-width: 800px;
+    padding: 20px;
+    z-index: 1;
+    animation: fadeInUp 1.5s ease-out;
 }
 
 .hero-content p {
-    max-width: 520px;
-    font-size: 18px;
-    opacity: 0.85;
-    font-family: 'Inter', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin: 30px 0;
+    color: #f0fdf4;
 }
 
-/* CTA */
-.cta {
-    margin-top: 30px;
-    display: inline-block;
-    padding: 14px 34px;
-    border-radius: 40px;
-    background: #32CD32;
-    color: #062C1B;
-    font-weight: 600;
-    box-shadow: 0 0 20px rgba(50,205,50,0.6);
-    transition: transform 0.3s ease;
+/* 3D TILES */
+.tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 80px 8%;
 }
 
-.cta:hover {
-    transform: scale(1.05);
-}
-
-/* 3D FLOATING TILES */
-.tiles {
+.tile-3d {
+    position: relative;
+    height: 400px;
     perspective: 1000px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-    padding: 60px 8%;
 }
 
-.tile {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(14px);
-    border-radius: 32px;
-    padding: 30px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    transform: rotateY(10deg) rotateX(5deg);
-    transition: transform 0.5s ease;
-}
-
-.tile:hover {
-    transform: rotateY(0) rotateX(0) scale(1.05);
-}
-
-.tile img {
+.tile-inner {
+    position: relative;
     width: 100%;
-    border-radius: 24px;
-    margin-bottom: 20px;
-}
-
-/* GLASS SECTIONS */
-.glass {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(14px);
-    border-radius: 32px;
-    padding: 50px;
-    margin: 40px 8%;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-}
-
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-    margin: 40px 8%;
-}
-
-/* CARDS */
-.card {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(14px);
-    border-radius: 32px;
-    padding: 30px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-}
-
-.card img {
-    width: 100%;
-    border-radius: 24px;
-}
-
-.card p {
-    opacity: 0.85;
-}
-
-/* STATS CARDS */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    margin: 40px 8%;
-}
-
-.stat-card {
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(14px);
-    border-radius: 32px;
-    padding: 30px;
+    height: 100%;
     text-align: center;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
 }
 
-.stat-card.visible {
-    opacity: 1;
-    transform: translateY(0);
+.tile-3d:hover .tile-inner {
+    transform: rotateY(10deg) rotateX(5deg);
 }
 
-.stat-value {
-    font-size: 48px;
-    font-weight: 700;
-    color: #8cc9a3;
+.tile-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 24px;
+    backface-visibility: hidden;
+}
+
+.tile-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+    background: linear-gradient(to top, rgba(3,43,30,0.95), transparent);
+    border-radius: 0 0 24px 24px;
+    text-align: left;
+    backface-visibility: hidden;
+}
+
+/* STATS SECTION */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 80px 8%;
+}
+
+.stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 600;
+    color: #86efac;
+    display: block;
+    line-height: 1;
 }
 
 .stat-label {
-    font-size: 16px;
-    opacity: 0.85;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    opacity: 0.8;
 }
 
 /* PROCESS SECTION */
-.process {
-    margin: 60px 8%;
-}
-
-.process-step {
+.process-row {
     display: flex;
     align-items: center;
-    margin-bottom: 60px;
-    gap: 40px;
+    gap: 60px;
+    margin: 80px 8%;
+    padding: 40px;
+    border-radius: 24px;
 }
 
-.process-step:nth-child(even) {
+.process-row:nth-child(even) {
     flex-direction: row-reverse;
 }
 
-.process-image {
-    width: 50%;
-    border-radius: 40px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+.process-img {
+    flex: 1;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .process-text {
-    width: 50%;
+    flex: 1;
 }
 
-/* COMMUNITY BAR */
-.community-bar {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(14px);
-    border-radius: 40px;
-    padding: 10px 30px;
+/* PLANT GAME */
+.plant-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    justify-content: center;
+    min-height: 60vh;
 }
 
-.community-stat {
-    font-size: 14px;
-    opacity: 0.9;
+.plant-img {
+    width: 350px;
+    border-radius: 200px 200px 20px 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    border: 2px solid rgba(134, 239, 172, 0.3);
+    margin-bottom: 40px;
+    transition: all 0.5s ease;
 }
 
-.stars {
-    color: #FFD700;
+/* CUSTOM BUTTON */
+.stButton > button {
+    background: transparent;
+    color: #86efac;
+    border: 1px solid #86efac;
+    border-radius: 50px;
+    padding: 12px 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: none;
 }
 
-/* GAME IMAGE */
-.plant {
-    width: 300px;
-    margin-bottom: 30px;
-    border-radius: 30px;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-}
-
-.stButton>button {
-    background: linear-gradient(135deg, #9fd9b8, #6ca98a);
-    border-radius: 40px;
-    border: none;
-    font-weight: 600;
-    padding: 12px 28px;
-    box-shadow: 0 0 15px rgba(108,169,138,0.4);
+.stButton > button:hover {
+    background: #86efac;
+    color: #022c22;
+    box-shadow: 0 0 20px rgba(134, 239, 172, 0.4);
 }
 
 /* ANIMATIONS */
@@ -285,28 +332,47 @@ h1, h2, h3 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.glass, .card, .tile {
-    animation: fadeInUp 1s ease-out;
+@keyframes slowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+/* COMMUNITY BAR */
+.floating-bar {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(3, 43, 30, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 15px 40px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    z-index: 998;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.bar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #e6f4ea;
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 48px;
-    }
-    .tiles, .grid, .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    .process-step {
-        flex-direction: column;
-    }
-    .process-image, .process-text {
-        width: 100%;
-    }
-    .community-bar {
-        width: 90%;
-        padding: 10px 15px;
-    }
+    h1 { font-size: 3.5rem; }
+    .hero-content p { font-size: 1.3rem; }
+    .process-row { flex-direction: column !important; gap: 30px; margin: 40px 5%; }
+    .tiles-grid { grid-template-columns: 1fr; }
+    .floating-bar { width: 90%; flex-direction: column; gap: 10px; padding: 15px; }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -314,187 +380,261 @@ h1, h2, h3 {
 # ------------------ STICKY HEADER ------------------
 st.markdown("""
 <div class="sticky-header">
-    <div class="logo">🌿 Eco-Echo</div>
-    <div class="nav-button">Get Started</div>
+    <div class="logo">Eco-Echo</div>
+    <a href="#" class="nav-btn">Start Journey</a>
 </div>
 """, unsafe_allow_html=True)
 
 # ------------------ SIDEBAR ------------------
-st.sidebar.title("🌿 Eco-Echo")
+st.sidebar.markdown("""
+<div style="text-align: center; padding: 20px 0;">
+    <h1 style="font-size: 3rem; margin: 0;">Eco-Echo</h1>
+    <p style="font-size: 0.9rem; letter-spacing: 2px; opacity: 0.7;">SUSTAINABLE LUXURY</p>
+</div>
+""", unsafe_allow_html=True)
+
 page = st.sidebar.radio(
-    "Explore",
-    ["Home", "Plant Care", "Daily Plant", "Earth Today", "Global Action"]
+    "",
+    ["Home", "Plant Care", "Daily Plant", "Earth Today", "Global Action"],
+    label_visibility="collapsed"
 )
 
 # ------------------ HOME ------------------
 if page == "Home":
+    # Hero Section
     st.markdown("""
-    <div class="hero">
+    <div class="hero-container">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Step Into the<br>Stillness of Nature</h1>
+            <h1>Step Into the Stillness of Nature</h1>
             <p>
-                Rediscover the beauty of the outdoors through curated retreats,
-                immersive eco-experiences, and sustainable travel.
+                A digital sanctuary where luxury meets sustainability. 
+                Curated eco-experiences for the modern guardian.
             </p>
-            <span class="cta">Explore the Echo</span>
+            <a href="#" class="nav-btn" style="display:inline-block; text-decoration:none; font-size:1rem;">Explore the Echo</a>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
+
+    # Introduction Glass Card
     st.markdown("""
-    <div class="glass">
-        <h2>Think Outside. No Box Required.</h2>
+    <div class="glass-panel" style="margin: 60px 8%; text-align: center;">
+        <h2>Harmonized Living</h2>
         <p>
-            Eco-Echo is a premium digital sanctuary crafted to harmonize human ingenuity with nature's wisdom, fostering mindful interactions that inspire sustainable living and profound environmental stewardship.
+            We believe that true luxury lies in the balance between human ingenuity and the organic world. 
+            Our platform is designed to guide you through a journey of environmental stewardship wrapped in 
+            uncompromising aesthetic beauty.
         </p>
     </div>
     """, unsafe_allow_html=True)
-    
+
     # 3D Floating Tiles
     st.markdown("""
-    <div class="tiles">
-        <div class="tile">
-            <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e">
-            <h3>Forests & Biodiversity</h3>
-            <p>Explore thriving ecosystems and their vital role in our planet's health.</p>
+    <div class="tiles-grid">
+        <div class="tile-3d">
+            <div class="tile-inner">
+                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=1613&auto=format&fit=crop" class="tile-img">
+                <div class="tile-content">
+                    <h3>Biodiversity</h3>
+                    <p>Protecting the intricate web of life.</p>
+                </div>
+            </div>
         </div>
-        <div class="tile">
-            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-            <h3>Planet Earth Ecosystems</h3>
-            <p>Dive into the interconnected web of life across global biomes.</p>
+        <div class="tile-3d">
+            <div class="tile-inner">
+                <img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&w=1647&auto=format&fit=crop" class="tile-img">
+                <div class="tile-content">
+                    <h3>Rainforests</h3>
+                    <p>The lungs of our planet, breathing life.</p>
+                </div>
+            </div>
         </div>
-        <div class="tile">
-            <img src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325">
-            <h3>Sustainable Futures</h3>
-            <p>Envision and build resilient communities in harmony with nature.</p>
+        <div class="tile-3d">
+            <div class="tile-inner">
+                <img src="https://images.unsplash.com/photo-1462275646964-a0e3571f4f7f?q=80&w=1628&auto=format&fit=crop" class="tile-img">
+                <div class="tile-content">
+                    <h3>Ocean Preservation</h3>
+                    <p>Healing the blue heart of the Earth.</p>
+                </div>
+            </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    # Stats Cards
+
+    # Stats Section
     st.markdown("""
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-value">30%</div>
-            <div class="stat-label">Carbon Footprint Reduction</div>
+    <div class="stats-container">
+        <div class="glass-panel" style="text-align: center; padding: 30px;">
+            <span class="stat-number">30%</span>
+            <span class="stat-label">Carbon Offset</span>
         </div>
-        <div class="stat-card">
-            <div class="stat-value">20%</div>
-            <div class="stat-label">Reduced Energy Bills</div>
+        <div class="glass-panel" style="text-align: center; padding: 30px;">
+            <span class="stat-number">12k</span>
+            <span class="stat-label">Trees Planted</span>
         </div>
-        <div class="stat-card">
-            <div class="stat-value">10K+</div>
-            <div class="stat-label">Worldwide Users</div>
+        <div class="glass-panel" style="text-align: center; padding: 30px;">
+            <span class="stat-number">5.0</span>
+            <span class="stat-label">Community Rating</span>
         </div>
-        <div class="stat-card">
-            <div class="stat-value">★★★★★</div>
-            <div class="stat-label">User Ratings</div>
+        <div class="glass-panel" style="text-align: center; padding: 30px;">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Committed</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
+
     # Process Section
     st.markdown("""
-    <div class="process">
-        <div class="process-step">
-            <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6" class="process-image">
-            <div class="process-text">
-                <h3>Discovery and Consultation</h3>
-                <p>Our architects engage with clients to understand their vision, preferences.</p>
-            </div>
+    <div class="glass-panel process-row">
+        <img src="https://images.unsplash.com/photo-1596395919256-03bba77e48d7?q=80&w=2070&auto=format&fit=crop" class="process-img">
+        <div class="process-text">
+            <h2>Discovery</h2>
+            <p>Understanding the unique ecological footprint of your lifestyle to tailor a bespoke sustainability path.</p>
         </div>
-        <div class="process-step">
-            <img src="https://images.unsplash.com/photo-1524593166156-312f362cada0" class="process-image">
-            <div class="process-text">
-                <h3>Native Plant Integration</h3>
-                <p>Garden Tree Landscape prioritizes the use of native plants in our designs.</p>
-            </div>
-        </div>
-        <div class="process-step">
-            <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429" class="process-image">
-            <div class="process-text">
-                <h3>Water-Efficient Irrigation</h3>
-                <p>Garden Tree Landscape is committed to responsible water management.</p>
-            </div>
+    </div>
+    
+    <div class="glass-panel process-row">
+        <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?q=80&w=2070&auto=format&fit=crop" class="process-img">
+        <div class="process-text">
+            <h2>Integration</h2>
+            <p>Seamlessly weaving eco-conscious choices into your daily routine through mindful practices and premium alternatives.</p>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
 # ------------------ PLANT CARE ------------------
 elif page == "Plant Care":
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
-    st.header("🌱 Plant Care Essentials")
+    st.markdown("<br><br>", unsafe_allow_html=True) # Spacer
     st.markdown("""
-    Plants flourish in harmony with nature's rhythms. Nurture them with mindful watering in dawn's light, 
-    allow the earth to respire freely, bathe in filtered sunbeams, and observe their subtle transformations with patience.
-    True care emerges from presence, not dominance.
-    """)
-    st.markdown("</div>", unsafe_allow_html=True)
+    <div class="glass-panel" style="margin: 40px 8%;">
+        <h2>Botanical Wisdom</h2>
+        <p>
+            Plants are not mere decorations; they are living companions. Care for them with the same gentleness you offer yourself.
+            Water with intention, prune with love, and watch life unfold in silence and splendor.
+        </p>
+        <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            <div class="glass-panel" style="padding: 20px; text-align: center;">
+                <h3 style="font-size: 2rem;">💧</h3>
+                <h4>Water</h4>
+                <p style="font-size: 1rem;">Touch the soil. If dry, water deeply.</p>
+            </div>
+            <div class="glass-panel" style="padding: 20px; text-align: center;">
+                <h3 style="font-size: 2rem;">☀️</h3>
+                <h4>Light</h4>
+                <p style="font-size: 1rem;">Bright, indirect light is best.</p>
+            </div>
+            <div class="glass-panel" style="padding: 20px; text-align: center;">
+                <h3 style="font-size: 2rem;">🌬️</h3>
+                <h4>Air</h4>
+                <p style="font-size: 1rem;">Ensure good circulation.</p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ------------------ DAILY PLANT ------------------
 elif page == "Daily Plant":
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
-    st.header("🌿 Grow Your Plant")
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="glass-panel plant-container">
+        <h2>Grow Your Digital Sanctuary</h2>
+        <p>Nurture your virtual plant daily to cultivate mindfulness.</p>
+    """, unsafe_allow_html=True)
+
     if "stage" not in st.session_state:
         st.session_state.stage = 0
         st.session_state.last = None
         st.session_state.watered = False
+
     today = date.today()
     if st.session_state.last != today:
         st.session_state.watered = False
         st.session_state.last = today
+
     images = [
-        "https://images.unsplash.com/photo-1501004318641-b39e6451bec6",  # seed
-        "https://images.unsplash.com/photo-1524593166156-312f362cada0",  # sprout
-        "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429",  # young tree
-        "https://images.unsplash.com/photo-1501785888041-af3ef285b470"   # forest
+        "https://images.unsplash.com/photo-1616690248973-098a5e08c8c7?q=80&w=1974&auto=format&fit=crop", # Seed
+        "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?q=80&w=1974&auto=format&fit=crop", # Sprout
+        "https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?q=80&w=2070&auto=format&fit=crop", # Small Plant
+        "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1929&auto=format&fit=crop"  # Tree
     ]
-    st.markdown(f'<img src="{images[st.session_state.stage]}" class="plant">', unsafe_allow_html=True)
+
+    st.markdown(f'<img src="{images[st.session_state.stage]}" class="plant-img">', unsafe_allow_html=True)
+
     if not st.session_state.watered:
-        if st.button("💧 Water Plant"):
+        if st.button("✨ Nurture Today"):
             st.session_state.watered = True
             st.session_state.stage = min(3, st.session_state.stage + 1)
-            st.success("In nature's time, growth unfolds. Your care resonates 🌱")
+            st.success("Your intention has been planted. Return tomorrow for growth.")
     else:
-        st.info("The cycle renews at dawn. Return tomorrow to nurture further.")
+        st.info("The plant has absorbed today's love. Rest and return tomorrow.")
+
     st.markdown("</div>", unsafe_allow_html=True)
 
 # ------------------ EARTH TODAY ------------------
 elif page == "Earth Today":
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
-    st.header("🌍 Planet Earth Today")
+    st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("""
-    In silent symphony, forests regenerate across continents, solar innovations illuminate urban landscapes, 
-    and global collectives redefine coexistence with the natural world. Evolution proceeds in whispers, 
-    anchored in collective consciousness and stewardship.
-    """)
-    st.markdown("</div>", unsafe_allow_html=True)
+    <div class="glass-panel" style="margin: 40px 8%;">
+        <h2>Planet Pulse</h2>
+        <div style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" style="width: 100%; max-width: 500px; border-radius: 20px;">
+            <div>
+                <p>
+                    As of today, the collective consciousness is shifting. Forests are reclaiming abandoned lands in parts of Europe, 
+                    renewable energy sources have outpaced coal in several nations, and the oceans are slowly healing as marine protected areas expand.
+                </p>
+                <p>
+                    The Earth is speaking in whispers of recovery. We must listen.
+                </p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ------------------ GLOBAL ACTION ------------------
 elif page == "Global Action":
-    st.markdown("<div class='glass'>", unsafe_allow_html=True)
-    st.header("🌎 Global Environmental Action")
+    st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("""
-    From Costa Rica's verdant canopy guardianship to Germany's renewable vanguard, 
-    sovereigns worldwide demonstrate that ecological harmony and advancement entwine 
-    when illuminated by prescient foresight.
-    """)
-    st.markdown("</div>", unsafe_allow_html=True)
+    <div class="glass-panel" style="margin: 40px 8%;">
+        <h2>Unified Movements</h2>
+        <p>
+            From the rewilding projects in the Scottish Highlands to the massive solar arrays in the Sahara, 
+            humanity is learning to cooperate with nature rather than dominate it.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+            <div class="glass-panel" style="padding: 20px;">
+                <h3>Costa Rica</h3>
+                <p>98% Renewable Energy</p>
+            </div>
+            <div class="glass-panel" style="padding: 20px;">
+                <h3>Bhutan</h3>
+                <p>Carbon Negative Nation</p>
+            </div>
+            <div class="glass-panel" style="padding: 20px;">
+                <h3>Sweden</h3>
+                <p>Recycling Revolution</p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ------------------ COMMUNITY BAR ------------------
 st.markdown("""
-<div class="community-bar">
-    <div class="community-stat">10K+ Global Users</div>
-    <div class="community-stat">|</div>
-    <div class="community-stat">Active Retreats: 874</div>
-    <div class="community-stat">|</div>
-    <div class="community-stat stars">★★★★★ 4.9/5</div>
+<div class="floating-bar">
+    <div class="bar-item">
+        <span style="font-size: 1.2rem;">🌍</span>
+        <span>12,405 Guardians</span>
+    </div>
+    <div style="width: 1px; height: 15px; background: rgba(255,255,255,0.3);"></div>
+    <div class="bar-item">
+        <span style="font-size: 1.2rem;">✨</span>
+        <span>89 Active Retreats</span>
+    </div>
+    <div style="width: 1px; height: 15px; background: rgba(255,255,255,0.3);"></div>
+    <div class="bar-item">
+        <span style="font-size: 1.2rem;">★</span>
+        <span>4.9/5 Ecosystem Rating</span>
+    </div>
 </div>
-""", unsafe_allow_html=True)
-
-# ------------------ FOOTER ------------------
-st.markdown("""
-<p style="text-align:center; opacity:0.6; margin:50px 0;">
-Eco-Echo 🌿 — A digital ecosystem woven from nature's essence, for tomorrow's guardians
-</p>
 """, unsafe_allow_html=True)
