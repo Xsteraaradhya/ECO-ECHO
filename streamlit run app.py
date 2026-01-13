@@ -1,21 +1,10 @@
-# ============================================================
-# ECO-ECHO — STREAMLIT APPLICATION (GITHUB READY)
-# FILE NAME: app.py
-# RUN COMMAND: streamlit run app.py
-# TECHNOLOGY: Python 3 + Streamlit
-# ============================================================
-# PURPOSE:
-# - Designed for GitHub repositories
-# - Runs on Streamlit Cloud without errors
-# - No Flask, no server setup, no hooks
-# ============================================================
 
 import streamlit as st
 from datetime import datetime
 
-# ============================================================
+
 # APP CONFIG
-# ============================================================
+
 
 st.set_page_config(
     page_title="Eco-Echo",
@@ -23,9 +12,9 @@ st.set_page_config(
     layout="wide"
 )
 
-# ============================================================
+
 # SESSION STATE (FIXES ALL STATE ISSUES)
-# ============================================================
+
 
 if "xp" not in st.session_state:
     st.session_state.xp = 0
@@ -34,9 +23,7 @@ if "xp" not in st.session_state:
     st.session_state.water_count = 0
     st.session_state.last_action = None
 
-# ============================================================
-# DATA (STATIC — SAFE FOR STREAMLIT)
-# ============================================================
+
 
 plants = [
     {"name": "Basil", "water": "Daily", "sunlight": "High"},
@@ -54,9 +41,7 @@ policies = [
     {"country": "Costa Rica", "policy": "Carbon neutral initiative"}
 ]
 
-# ============================================================
-# CORE LOGIC (BUG-FREE)
-# ============================================================
+
 
 def recalculate_level():
     st.session_state.level = st.session_state.xp // 100 + 1
@@ -77,9 +62,7 @@ page = st.sidebar.radio(
     ["Home", "Plant Care", "News", "Policies", "Profile"]
 )
 
-# ============================================================
-# HOME
-# ============================================================
+
 
 if page == "Home":
     st.title("🌱 Eco-Echo")
